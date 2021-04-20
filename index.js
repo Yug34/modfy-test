@@ -18,6 +18,7 @@ function isValid(state, latest, transform) {
     }
   }
 
+  console.log(_.isEqual(state, latest));
   return _.isEqual(state, latest);
 }
 
