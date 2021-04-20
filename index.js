@@ -1,6 +1,28 @@
+var _ = require('lodash');
+
 function isValid(state, latest, transform) {
-  // this is the part you write!
-  console.log(state);
+  for (const action of transform) {
+    if(action.state === "Move") {
+      let temp = state[action.type][action.position];
+      state[action.type][action.position] = state[action.type][action.secondPosition];
+      state[action.type][action.secondPosition] = temp;
+      continue;
+    }
+    else if(action.state === "Insert") {
+      if(!state[action.type]) {
+        state[action.type] = []
+      }
+
+      state[action.type].push(action.fileObj);
+      continue;
+    }
+    else if(action.state === "Delete") {
+      state[action.type].splice(action.position, 1);
+    }
+  }
+
+  console.log(_.isEqual(state,latest))
+  return _.isEqual(state,latest);
 }
 
 isValid(
@@ -140,3 +162,5 @@ isValid(
     }
   ]
 ) // false, wrong image deletion
+
+module.exports = isValid;

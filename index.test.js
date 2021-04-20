@@ -1,3 +1,5 @@
+const isValid = require("./index");
+
 it('works', () => {
-    expect(2+2).toBe(4);
+    expect(false).toBe(false);
 });
