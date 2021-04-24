@@ -1,6 +1,24 @@
 const isValid = require("./index");
 
-it("first case", () => {
+it("Deletes array when empty", () => {
+  expect(isValid(
+    {
+      video: [
+        { file: "1.mp4", customType: "video" }
+      ]
+    },
+    {},
+    [
+      {
+        state: "Delete",
+        position: 0,
+        type: "video",
+      },
+    ]
+  )).toBe(true);
+})
+
+it("Moves inserts and deletes properly", () => {
   expect(
     isValid(
       {
@@ -34,7 +52,7 @@ it("first case", () => {
   ).toBe(true);
 });
 
-it("second case", () => {
+it("Creates array when it doesn't exist", () => {
   expect(
     isValid(
       {},
@@ -96,7 +114,7 @@ it("second case", () => {
   ).toBe(false);
 });
 
-it("third case", () => {
+it("Moves inserts and deletes properly", () => {
   expect(isValid(
       {
         video: [

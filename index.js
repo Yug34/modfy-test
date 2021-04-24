@@ -1,26 +1,50 @@
 const _ = require("lodash");
 
+
 function isValid(state, latest, transform) {
   for (const action of transform) {
     if (action.state === "Move") {
+      // Swap the values
       let temp = state[action.type][action.position];
       state[action.type][action.position] =
         state[action.type][action.secondPosition];
       state[action.type][action.secondPosition] = temp;
     } else if (action.state === "Insert") {
+      //Inserting value
+      //If the array is not there, create it first!
       if (!state[action.type]) {
         state[action.type] = [];
       }
 
       state[action.type].push(action.fileObj);
     } else if (action.state === "Delete") {
+      //If the array is empty, delete it!
       state[action.type].splice(action.position, 1);
+      if(!state[action.type][0]) {
+        delete state[action.type]
+      }
     }
   }
 
   console.log(_.isEqual(state, latest));
   return _.isEqual(state, latest);
 }
+
+isValid(
+  {
+    video: [
+      { file: "1.mp4", customType: "video" }
+    ]
+  },
+  {},
+  [
+    {
+      state: "Delete",
+      position: 0,
+      type: "video",
+    },
+  ]
+); // true
 
 isValid(
   {
